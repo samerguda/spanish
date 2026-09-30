@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spanish A1 - 70 Verbs</title>
+  <style>
+    :root {
+      --primary: #c62828;
+      --primary-dark: #8e0000;
+      --accent: #f57f17;
+      --bg: #f8f9fa;
+      --card-bg: #ffffff;
+      --text: #212529;
+      --text-muted: #6c757d;
+      --border: #e9ecef;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 25px;
+      padding: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    .search-box {
+      margin-bottom: 20px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 14px 20px;
+      font-size: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .spanish-verb {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: var(--primary);
+      direction: ltr;
+    }
+
+    .number {
+      font-size: 0.85rem;
+      background: var(--border);
+      color: var(--text-muted);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .arabic-meaning {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .pronunciation {
+      font-size: 0.95rem;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 12px;
+      }
+      
+      header h1 {
+        font-size: 1.5rem;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Spanish A1 — 70 Verbs</h1>
+      <p>أهم 70 فعل في اللغة الإسبانية للمستوى المبتدئ مع الترجمة والنطق</p>
+    </header>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="بحث عن فعل باللغة الإسبانية أو العربية..." onkeyup="filterVerbs()">
+    </div>
+
+    <div class="grid" id="verbsGrid"></div>
+  </div>
+
+  <script>
+    const verbsData = [
+      { spanish: "ser", arabic: "يكون", pronunciation: "سِير" },
+      { spanish: "estar", arabic: "يكون / يوجد", pronunciation: "إِسْتَار" },
+      { spanish: "tener", arabic: "يملك / لديه", pronunciation: "تِينِير" },
+      { spanish: "hacer", arabic: "يفعل / يصنع", pronunciation: "أَسِير" },
+      { spanish: "ir", arabic: "يذهب", pronunciation: "إِير" },
+      { spanish: "venir", arabic: "يأتي", pronunciation: "بِنِير" },
+      { spanish: "vivir", arabic: "يعيش", pronunciation: "بِبِير" },
+      { spanish: "hablar", arabic: "يتكلم", pronunciation: "أَبْلَار" },
+      { spanish: "escuchar", arabic: "يستمع", pronunciation: "إِسْكُوتْشَار" },
+      { spanish: "ver", arabic: "يرى", pronunciation: "بِير" },
+      { spanish: "mirar", arabic: "ينظر / يشاهد", pronunciation: "مِيرَار" },
+      { spanish: "leer", arabic: "يقرأ", pronunciation: "لِيِير" },
+      { spanish: "escribir", arabic: "يكتب", pronunciation: "إِسْكْرِيبِير" },
+      { spanish: "comer", arabic: "يأكل", pronunciation: "كُومِير" },
+      { spanish: "beber", arabic: "يشرب", pronunciation: "بِيبِير" },
+      { spanish: "dormir", arabic: "ينام", pronunciation: "دُورْمِير" },
+      { spanish: "trabajar", arabic: "يعمل", pronunciation: "تْرَابَاخَار" },
+      { spanish: "estudiar", arabic: "يدرس", pronunciation: "إِسْتُودْيَار" },
+      { spanish: "aprender", arabic: "يتعلم", pronunciation: "أَبْرِينْدِير" },
+      { spanish: "enseñar", arabic: "يعلّم", pronunciation: "إِنْسِينْيَار" },
+      { spanish: "gustar", arabic: "يعجب / يحب", pronunciation: "غُوسْتَار" },
+      { spanish: "querer", arabic: "يريد / يحب", pronunciation: "كِيرِير" },
+      { spanish: "poder", arabic: "يستطيع", pronunciation: "بُودِير" },
+      { spanish: "necesitar", arabic: "يحتاج", pronunciation: "نِيسِيسِتَار" },
+      { spanish: "saber", arabic: "يعرف", pronunciation: "سَابِير" },
+      { spanish: "conocer", arabic: "يعرف / يتعرّف على", pronunciation: "كُونُوسِير" },
+      { spanish: "pensar", arabic: "يفكر", pronunciation: "بِنْسَار" },
+      { spanish: "creer", arabic: "يعتقد", pronunciation: "كْرِيِير" },
+      { spanish: "entender", arabic: "يفهم", pronunciation: "إِنْتِينْدِير" },
+      { spanish: "recordar", arabic: "يتذكر", pronunciation: "رِيكُورْدَار" },
+      { spanish: "comprar", arabic: "يشتري", pronunciation: "كُومْبْرَار" },
+      { spanish: "vender", arabic: "يبيع", pronunciation: "بِنْدِير" },
+      { spanish: "pagar", arabic: "يدفع", pronunciation: "بَاغَار" },
+      { spanish: "costar", arabic: "يكلّف", pronunciation: "كُوسْتَار" },
+      { spanish: "buscar", arabic: "يبحث عن", pronunciation: "بُوسْكَار" },
+      { spanish: "encontrar", arabic: "يجد", pronunciation: "إِنْكُونْتْرَار" },
+      { spanish: "usar", arabic: "يستخدم", pronunciation: "أُوسَار" },
+      { spanish: "abrir", arabic: "يفتح", pronunciation: "أَبْرِير" },
+      { spanish: "cerrar", arabic: "يغلق", pronunciation: "سِيرَار" },
+      { spanish: "empezar", arabic: "يبدأ", pronunciation: "إِمْبِيسَار" },
+      { spanish: "terminar", arabic: "ينهي", pronunciation: "تِيرْمِينَار" },
+      { spanish: "llegar", arabic: "يصل", pronunciation: "يِيغَار" },
+      { spanish: "salir", arabic: "يخرج", pronunciation: "سَالِير" },
+      { spanish: "entrar", arabic: "يدخل", pronunciation: "إِنْتْرَار" },
+      { spanish: "volver", arabic: "يعود", pronunciation: "بُولْبِير" },
+      { spanish: "llevar", arabic: "يأخذ / يحمل", pronunciation: "يِيبَار" },
+      { spanish: "traer", arabic: "يجلب", pronunciation: "تْرَائِير" },
+      { spanish: "dar", arabic: "يعطي", pronunciation: "دَار" },
+      { spanish: "tomar", arabic: "يأخذ / يتناول", pronunciation: "تُومَار" },
+      { spanish: "poner", arabic: "يضع", pronunciation: "بُونِير" },
+      { spanish: "llamar", arabic: "يتصل / ينادي", pronunciation: "يَامَار" },
+      { spanish: "preguntar", arabic: "يسأل", pronunciation: "بْرِيغُونْتَار" },
+      { spanish: "responder", arabic: "يجيب", pronunciation: "رِيسْبُونْدِير" },
+      { spanish: "ayudar", arabic: "يساعد", pronunciation: "أَيُودَار" },
+      { spanish: "esperar", arabic: "ينتظر / يأمل", pronunciation: "إِسْبِيرَار" },
+      { spanish: "jugar", arabic: "يلعب", pronunciation: "خُوغَار" },
+      { spanish: "caminar", arabic: "يمشي", pronunciation: "كَامِينَار" },
+      { spanish: "correr", arabic: "يجري", pronunciation: "كُورِير" },
+      { spanish: "viajar", arabic: "يسافر", pronunciation: "بِيَاخَار" },
+      { spanish: "cocinar", arabic: "يطبخ", pronunciation: "كُوسِينَار" },
+      { spanish: "limpiar", arabic: "ينظف", pronunciation: "لِيمْبْيَار" },
+      { spanish: "lavar", arabic: "يغسل", pronunciation: "لَابَار" },
+      { spanish: "cantar", arabic: "يغني", pronunciation: "كَنْتَار" },
+      { spanish: "bailar", arabic: "يرقص", pronunciation: "بَايْلَار" },
+      { spanish: "nadar", arabic: "يسبح", pronunciation: "نَادَار" },
+      { spanish: "cambiar", arabic: "يغيّر", pronunciation: "كَامْبْيَار" },
+      { spanish: "esperar", arabic: "ينتظر", pronunciation: "إِسْبِيرَار" },
+      { spanish: "descansar", arabic: "يرتاح", pronunciation: "دِيسْكَانْسَار" }
+    ];
+
+    function renderVerbs(verbs) {
+      const grid = document.getElementById('verbsGrid');
+      grid.innerHTML = '';
+      
+      verbs.forEach((verb, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-header">
+            <span class="spanish-verb">${verb.spanish}</span>
+            <span class="number">#${index + 1}</span>
+          </div>
+          <div class="card-body">
+            <div class="arabic-meaning">${verb.arabic}</div>
+            <div class="pronunciation">النطق: ${verb.pronunciation}</div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function filterVerbs() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      const filtered = verbsData.filter(item => 
+        item.spanish.toLowerCase().includes(query) ||
+        item.arabic.includes(query) ||
+        item.pronunciation.includes(query)
+      );
+      renderVerbs(filtered);
+    }
+
+    // Initial render
+    renderVerbs(verbsData);
+  </script>
+</body>
+</html>
